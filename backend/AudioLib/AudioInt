@@ -1,0 +1,7 @@
+from abc import ABC, abstractmethod
+
+# Interface class
+class AudioInt(ABC):
+    @abstractmethod
+    def getTextFromPDF(self, pdf_path: str) -> str:
+        pass
