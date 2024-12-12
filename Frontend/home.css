@@ -45,3 +45,35 @@
     height: auto;
     margin: 20px; /* Optional: Add some margin */
 }
+.container {
+    width: 45%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.left-container {
+    position: absolute;
+    bottom: 400px; /* Adjust based on the height of the footer */
+    left: 0;
+}
+
+.right-container {
+    position: absolute;
+    bottom: 400px; /* Adjust based on the height of the footer */
+    right: 0;
+}
+#uploadButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: blueviolet;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#uploadButton:hover {
+    background-color: #0056b3;
+}
