@@ -1,0 +1,63 @@
+.header {
+    background-color: #8f3f65;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+}
+
+.upload-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #8f3f65;
+    color: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.upload-footer button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-footer button:hover {
+    background-color: #333333; /* Darker black on hover */
+}
+/* Add this to Frontend/upload.css */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f0f0f0; /* Optional: Add a background color */
+    border-top: 1px solid #ccc; /* Optional: Add a top border */
+    position: fixed;
+    bottom: 80px; /* Adjust based on the height of the footer */
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-container button:hover {
+    background-color: #333333; /* Darker black on hover */
+}
