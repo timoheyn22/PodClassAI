@@ -10,6 +10,7 @@ load_dotenv()
 API_KEY = os.getenv('API_KEY')
 BASE_URL = os.getenv('BASE_URL')
 
+
 text_lib = TextLib()
 text_lib.getTextFromPDF(API_KEY,BASE_URL)
 
