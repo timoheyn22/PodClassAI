@@ -15,7 +15,7 @@
 }
 
 .footer {
-    position: fixed;
+    position: fixed; /* Change to relative to use as a reference point */
     bottom: 0;
     left: 0;
     right: 0;
@@ -52,7 +52,7 @@
 }
 
 .left-container {
-    position: absolute;
+    position:absolute;
     bottom: 400px; /* Adjust based on the height of the footer */
     left: 0;
 }
@@ -64,16 +64,38 @@
 }
 #uploadButton {
     display: block;
-    margin: 20px auto;
+    margin: 260px 0 20px 0; /* Adjust the top margin to 100px */
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007BFF;
-    color: blueviolet;
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 #uploadButton:hover {
-    background-color: #0056b3;
+    background-color: #333333; /* Darker black on hover */
+}
+
+.new-container {
+    position: absolute;
+    top: 120px; /* Adjust based on the height of the header */
+    left: 0;
+    width: 45%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f0f0f0; /* Optional: Add a background color */
+    border: 1px solid #ccc; /* Optional: Add a border */
+}
+
+.new-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+.new-container p {
+    font-size: 16px;
+    margin: 0;
 }
