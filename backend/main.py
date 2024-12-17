@@ -10,9 +10,11 @@ load_dotenv()
 API_KEY = os.getenv('API_KEY')
 BASE_URL = os.getenv('BASE_URL')
 
-
+file_transporter = FileTransportLib()
 text_lib = TextLib()
-text_lib.getTextFromPDF(API_KEY,BASE_URL)
+file_transporter.delete_all_files("Uploads/PNG")
+file_transporter.delete_all_files("Uploads/TXT")
+#text_lib.getTextFromPDF(API_KEY,BASE_URL)
 
 #called from the Frontend starting the pipeline form PDF to Podcast
 def pipelinePDFtoPodcast():
