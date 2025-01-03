@@ -5,16 +5,25 @@ from backend.FileTransportLib.FileTransportLib import FileTransportLib
 import os
 from dotenv import load_dotenv
 
+
+
+
 #get the API_KEY and BASE_URL from the .env file
 load_dotenv()
 API_KEY = os.getenv('API_KEY')
 BASE_URL = os.getenv('BASE_URL')
 
+
+#example ussage until the Frontend is implemented
 file_transporter = FileTransportLib()
 text_lib = TextLib()
+audio_lib = AudioLib()
 file_transporter.delete_all_files("Uploads/PNG")
 file_transporter.delete_all_files("Uploads/TXT")
 #text_lib.getTextFromPDF(API_KEY,BASE_URL)
+audio_lib.turnScriptIntoAudio("Hello World",150,1.0,1)
+
+
 
 #called from the Frontend starting the pipeline form PDF to Podcast
 def pipelinePDFtoPodcast():
