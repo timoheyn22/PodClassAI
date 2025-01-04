@@ -21,3 +21,76 @@ document.getElementById('pdfInput').addEventListener('change', function(event) {
         });
     }
 });
+
+document.getElementById('pdfUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/pdf') {
+        const fileReader = new FileReader();
+        fileReader.onload = function() {
+            const pdfData = fileReader.result;
+            const pdfContainer = document.getElementById('pdfContainer');
+            pdfContainer.innerHTML = `<embed src="${pdfData}" type="application/pdf" width="100%" height="100%">`;
+        };
+        fileReader.readAsDataURL(file);
+    } else {
+        alert('Please upload a valid PDF file.');
+    }
+});
+
+document.getElementById('selectLanguageButton').addEventListener('click', function() {
+    document.getElementById('languageDropdown').style.display = 'block';
+});
+
+document.querySelectorAll('#languageDropdown a').forEach(function(item) {
+    item.addEventListener('click', function(event) {
+        event.preventDefault();
+        const selectedLanguage = event.target.getAttribute('data-lang');
+        document.getElementById('selectLanguageButton').textContent = selectedLanguage;
+        document.getElementById('languageDropdown').style.display = 'none';
+    });
+});
+
+document.getElementById('selectLanguageButton').addEventListener('click', function() {
+    document.getElementById('languageDropdown').style.display = 'block';
+});
+
+document.querySelectorAll('#languageDropdown a').forEach(function(item) {
+    item.addEventListener('click', function(event) {
+        event.preventDefault();
+        const selectedLanguage = event.target.getAttribute('data-lang');
+        document.getElementById('selectLanguageButton').textContent = selectedLanguage;
+        document.getElementById('languageDropdown').style.display = 'none';
+    });
+});
+
+document.addEventListener('click', function(event) {
+    if (!event.target.matches('#selectLanguageButton')) {
+        document.getElementById('languageDropdown').style.display = 'none';
+    }
+}   );
+
+document.getElementById('backToHomeButton').addEventListener('click', function() {
+    window.location.href = '/';
+});
+
+document.getElementById('selectSpeedButton').addEventListener('click', function() {
+    document.getElementById('speedDropdown').style.display = 'block';
+});
+
+document.querySelectorAll('#speedDropdown a').forEach(function(item) {
+    item.addEventListener('click', function(event) {
+        event.preventDefault();
+        const selectedSpeed = event.target.getAttribute('data-speed');
+        document.getElementById('selectSpeedButton').textContent = selectedSpeed;
+        document.getElementById('speedDropdown').style.display = 'none';
+    });
+});
+
+document.addEventListener('click', function(event) {
+    if (!event.target.matches('#selectSpeedButton')) {
+        document.getElementById('speedDropdown').style.display = 'none';
+    }
+});
+
+
+
