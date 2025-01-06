@@ -92,5 +92,9 @@ document.addEventListener('click', function(event) {
     }
 });
 
+    document.getElementById('backToHomeButton').addEventListener('click', function() {
+        window.location.href = "home.html"; // Replace 'upload.html' with your actual upload page URL
+    });
+
 
 
