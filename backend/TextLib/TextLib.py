@@ -1,16 +1,66 @@
 import os
 import fitz
-import requests
-import json
+import base64
+from openai import OpenAI
+
 
 class TextLib:
-    def getTextFromPDF(self,API_KEY,BASE_URL):
+    def getTextFromPDF(self, API_KEY, BASE_URL,model):
         print("getTextFromPDF method called")
-        pdf_to_png("Uploads/PDF","Uploads/PNG")
-        send_images_and_save_responses(API_KEY,BASE_URL,"Uploads/PNG","Uploads/TXT")
+        pdf_to_png("Uploads/PDF", "Uploads/PNG")
+        result = send_images_and_save_responses(API_KEY, BASE_URL, model)
+        print("got text from PDFs")
+        return result
 
+def send_images_and_save_responses(api_key, base_url, model):
+    # Start OpenAI client
+    client = OpenAI(
+        api_key=api_key,
+        base_url=base_url,
+    )
 
+    # Path to the directory containing PNG files
+    image_dir = "Uploads/PNG"
 
+    # Initialize a string to collect all responses
+    all_responses = ""
+
+    # Loop through all PNG files in the directory
+    for file_name in os.listdir(image_dir):
+        if file_name.lower().endswith(".png"):
+            image_path = os.path.join(image_dir, file_name)
+
+            # Encode the image to base64
+            base64_image = encode_image(image_path)
+
+            # Send the image to the API and get the response
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": "What is in this image?"},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{base64_image}"
+                                },
+                            },
+                        ],
+                    }
+                ],
+            )
+
+            # Append the response message to the collection string
+            message_content = response.choices[0].message.content
+            all_responses += f"Response for {file_name}: {message_content}\n"
+
+    return all_responses
+
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
 
 def pdf_to_png(input_folder="Uploads/PDF", output_folder="Uploads/PNG"):
     """
@@ -44,102 +94,3 @@ def pdf_to_png(input_folder="Uploads/PDF", output_folder="Uploads/PNG"):
 
             pdf_document.close()
             print(f"Converted: {pdf_file} -> PNGs stored in {output_folder}")
-
-
-def send_images_and_save_responses(api_key, base_url, image_dir, output_dir):
-    # Endpoint for interacting with the LLM
-    model_endpoint = f"{base_url}/models/intern-vl2-8b"
-
-    # Headers for the request
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-    }
-
-    # Collect all PNG files from the image directory
-    png_files = [f for f in os.listdir(image_dir) if f.endswith('.png')]
-
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # Accumulate all responses
-    all_responses = []
-
-    # Process each PNG file
-    for image_file in png_files:
-        image_path = os.path.join(image_dir, image_file)
-
-        # Check if the image exists
-        if not os.path.exists(image_path):
-            all_responses.append(f"Error: Image {image_file} does not exist\n")
-            continue
-
-        # Read the image file
-        with open(image_path, "rb") as img_file:
-            image_data = img_file.read()
-
-        # Check the image data size (ensure it is not empty)
-        if not image_data:
-            all_responses.append(f"Error: Image {image_file} is empty\n")
-            continue
-
-        # Construct the payload
-        payload = {
-            "inputs": {
-                "text": "Extract all information from the image",  # Ensure this is the correct prompt
-            },
-            "parameters": {
-                "model": "intern-vl2-8b"
-            }
-        }
-
-        # Files to send
-        files = {
-            "image": ("image.png", image_data, "image/png"),
-            "payload": (None, json.dumps(payload)),  # Ensure payload is properly serialized
-        }
-
-        # Debugging: Log the payload being sent
-        all_responses.append(f"Sending request for {image_file} with payload: {json.dumps(payload)}\n")
-
-        # Send the POST request
-        try:
-            response = requests.post(model_endpoint, headers=headers, files=files)
-            response.raise_for_status()  # Raises an exception for HTTP error responses
-        except requests.exceptions.RequestException as e:
-            all_responses.append(f"Request failed for {image_file}: {str(e)}\n")
-            continue
-
-        # Debugging: Check the raw response
-        if response.status_code != 200:
-            all_responses.append(f"Error: Received HTTP {response.status_code} for {image_file}\n")
-            all_responses.append(f"Response content: {response.text}\n")
-            continue
-
-        # Debugging: Check the response content and structure
-        try:
-            result = response.json()
-        except ValueError as e:
-            all_responses.append(f"Error parsing JSON for {image_file}: {str(e)}\n")
-            all_responses.append(f"Raw response: {response.text}\n")
-            continue
-
-        # Log the response to inspect its structure
-        all_responses.append(f"Response for {image_file}: {json.dumps(result, indent=2)}\n")
-
-        # Process the response
-        text_response = result.get("text", "No text response found")
-
-        # If no text found, log the entire response for further analysis
-        if text_response == "No text response found":
-            all_responses.append(f"Warning: No text found for {image_file}\n")
-
-        # Append the response to the list
-        all_responses.append(f"Response for {image_file}:\n{text_response}\n\n")
-
-    # Save all responses in a single text file
-    output_file_path = os.path.join(output_dir, "all_responses.txt")
-    with open(output_file_path, "w") as output_file:
-        output_file.writelines(all_responses)
-
-    print(f"All responses saved to {output_file_path}")
