@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0f78ed2a-975f-4715-9c41-abc5894e108a" name="podclass-server" url="https://aixaiprojekt.leuphana.de/podclass ">
+        <fileTransfer rootFolder="/home/podclass-ws24" accessType="SFTP" host="141.39.217.37" port="22" sshConfigId="24604c69-125d-4aa2-9e7a-d2c729e7179d" sshConfig="podclass-ws24@141.39.217.37:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

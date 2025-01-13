@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="141.39.217.37" id="24604c69-125d-4aa2-9e7a-d2c729e7179d" port="22" nameFormat="DESCRIPTIVE" username="podclass-ws24" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
