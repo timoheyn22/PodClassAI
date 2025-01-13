@@ -4,7 +4,20 @@ document.getElementById('uploadNewPdfButton').addEventListener('click', function
 
 document.getElementById('pdfInput').addEventListener('change', function(event) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type === 'application/pdf') {
+        // Update the button text with the PDF file name
+        document.getElementById('uploadNewPdfButton').textContent = file.name;
+
+        // Display the PDF in the pdfContainer
+        const fileReader = new FileReader();
+        fileReader.onload = function() {
+            const pdfData = fileReader.result;
+            const pdfContainer = document.getElementById('pdfContainer');
+            pdfContainer.innerHTML = `<embed src="${pdfData}" type="application/pdf" width="100%" height="100%">`;
+        };
+        fileReader.readAsDataURL(file);
+
+        // Upload the PDF file to the server
         const formData = new FormData();
         formData.append('pdf', file);
 
@@ -19,6 +32,8 @@ document.getElementById('pdfInput').addEventListener('change', function(event) {
         .catch(error => {
             console.error('Error:', error);
         });
+    } else {
+        alert('Please upload a valid PDF file.');
     }
 });
 
