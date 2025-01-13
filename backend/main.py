@@ -13,17 +13,8 @@ BASE_URL = os.getenv('BASE_URL')
 model = "internvl2-8b"
 
 
-#example ussage until the templates is implemented
-file_transporter = FileTransportLib()
-text_lib = TextLib()
-audio_lib = AudioLib()
-script_lib = ScriptLib()
 
-#file_transporter.delete_all_files("Uploads/PNG")
-#file_transporter.delete_all_files("Uploads/MP3")
-#text = text_lib.getTextFromPDF(API_KEY,BASE_URL,model)
-#script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text)
-#audio_lib.turnScriptIntoAudio(script,150,1.0,1)
+
 
 
 
@@ -33,7 +24,7 @@ script_lib = ScriptLib()
 
 
 #called from the templates starting the pipeline form PDF to Podcast
-def pipelinePDFtoPodcast(rate,volume,language):
+def pipelinePDFtoPodcast():
 
     text_lib = TextLib()
     script_lib = ScriptLib()
@@ -43,8 +34,8 @@ def pipelinePDFtoPodcast(rate,volume,language):
     file_transporter.delete_all_files("Uploads/PNG")
     file_transporter.delete_all_files("Uploads/MP3")
     text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model)
-    script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text,language)
-    audio_lib.turnScriptIntoAudio(script,rate,volume,1)
+    script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text)
+    audio_lib.turnScriptIntoAudio(script,150,1.0,1)
 
 
 #called from the templates when a pdf is uploaded
@@ -53,9 +44,6 @@ def savePDF(pdf_path):
     file_transporter.delete_all_files("Uploads/PDF")
     file_transporter.savePDF(pdf_path,"Uploads/PDF")
 
-# Example usage
-#pipelinePDFtoPodcast()
-#savePDF()
 
 
 app = Flask(__name__)
