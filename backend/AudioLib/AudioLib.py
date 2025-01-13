@@ -2,7 +2,7 @@ from gtts import gTTS
 import os
 
 
-class AudioGenerator:
+class AudioLib:
     def turnScriptIntoAudio(self, speed, language, script):
         # Define the output folder
         output_folder = 'backend/Uploads/MP3'
@@ -11,8 +11,20 @@ class AudioGenerator:
 
         # Generate the audio file
         try:
+            # Define the language and TLD
+            if language == "british-english":
+                tld = "co.uk"
+                language = "en"
+            elif language == "english":
+                language = "en"
+                tld = None
+                if language == "german":
+                    language = "de"
+                    tld = None
+
+
             # Create a gTTS object
-            tts = gTTS(text=script, lang=language, slow=speed)
+            tts = gTTS(text=script, lang=language, slow=speed, tld=tld)
 
             # Define the output file path
             output_file = os.path.join(output_folder, 'output.mp3')
