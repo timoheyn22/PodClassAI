@@ -3,7 +3,7 @@ import os
 
 class AudioLib:
     def turnScriptIntoAudio(self, text, speech_rate, volume, voice_id):
-        output_folder = 'Uploads/MP3'
+        output_folder = 'backend/Uploads/MP3'
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
         output_path = os.path.join(output_folder, 'test.mp3')

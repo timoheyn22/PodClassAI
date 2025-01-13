@@ -7,7 +7,7 @@ from openai import OpenAI
 class TextLib:
     def getTextFromPDF(self, API_KEY, BASE_URL,model):
         print("getTextFromPDF method called")
-        pdf_to_png("Uploads/PDF", "Uploads/PNG")
+        pdf_to_png("backend/Uploads/PDF", "backend/Uploads/PNG")
         result = send_images_and_save_responses(API_KEY, BASE_URL, model)
         print("got text from PDFs")
         return result
@@ -20,7 +20,7 @@ def send_images_and_save_responses(api_key, base_url, model):
     )
 
     # Path to the directory containing PNG files
-    image_dir = "Uploads/PNG"
+    image_dir = "backend/Uploads/PNG"
 
     # Initialize a string to collect all responses
     all_responses = ""
@@ -32,6 +32,7 @@ def send_images_and_save_responses(api_key, base_url, model):
 
             # Encode the image to base64
             base64_image = encode_image(image_path)
+
 
             # Send the image to the API and get the response
             response = client.chat.completions.create(
@@ -62,7 +63,7 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-def pdf_to_png(input_folder="Uploads/PDF", output_folder="Uploads/PNG"):
+def pdf_to_png(input_folder="backend/Uploads/PDF", output_folder="backend/Uploads/PNG"):
     """
     Converts each page of PDF files in a folder to PNG format.
 

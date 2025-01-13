@@ -14,16 +14,6 @@ BASE_URL = os.getenv('BASE_URL')
 model = "internvl2-8b"
 
 
-
-
-
-
-
-
-
-
-
-
 #called from the templates starting the pipeline form PDF to Podcast
 def pipelinePDFtoPodcast():
 
@@ -32,8 +22,8 @@ def pipelinePDFtoPodcast():
     audio_lib = AudioLib()
     file_transporter = FileTransportLib()
 
-    file_transporter.delete_all_files("Uploads/PNG")
-    file_transporter.delete_all_files("Uploads/MP3")
+    file_transporter.delete_all_files("backend/Uploads/PNG")
+    file_transporter.delete_all_files("backend/Uploads/MP3")
     text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model)
     script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text)
     audio_lib.turnScriptIntoAudio(script,150,1.0,1)
