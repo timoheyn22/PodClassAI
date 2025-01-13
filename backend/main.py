@@ -33,21 +33,25 @@ script_lib = ScriptLib()
 
 
 #called from the templates starting the pipeline form PDF to Podcast
-def pipelinePDFtoPodcast():
+def pipelinePDFtoPodcast(rate,volume,language):
 
     text_lib = TextLib()
     script_lib = ScriptLib()
     audio_lib = AudioLib()
     file_transporter = FileTransportLib()
-    #parameters are still missing
+
     file_transporter.delete_all_files("Uploads/PNG")
-    text_lib.getTextFromPDF(API_KEY, BASE_URL, model)
+    file_transporter.delete_all_files("Uploads/MP3")
+    text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model)
+    script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text,language)
+    audio_lib.turnScriptIntoAudio(script,rate,volume,1)
 
 
 #called from the templates when a pdf is uploaded
-def savePDF():
+def savePDF(pdf_path):
     file_transporter = FileTransportLib()
-    file_transporter.savePDF("path/to/pdf")
+    file_transporter.delete_all_files("Uploads/PDF")
+    file_transporter.savePDF(pdf_path,"Uploads/PDF")
 
 # Example usage
 #pipelinePDFtoPodcast()
