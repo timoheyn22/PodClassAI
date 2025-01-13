@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 
+
 #get the API_KEY and BASE_URL from the .env file
 load_dotenv()
 API_KEY = os.getenv('API_KEY')
@@ -39,10 +40,10 @@ def pipelinePDFtoPodcast():
 
 
 #called from the templates when a pdf is uploaded
-def savePDF(pdf_path):
-    file_transporter = FileTransportLib()
-    file_transporter.delete_all_files("Uploads/PDF")
-    file_transporter.savePDF(pdf_path,"Uploads/PDF")
+#def savePDF(pdf_path):
+   # file_transporter = FileTransportLib()
+    #file_transporter.delete_all_files("Uploads/PDF")
+   # file_transporter.savePDF(pdf_path"Uploads/PDF")
 
 
 

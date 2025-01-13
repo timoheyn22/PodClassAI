@@ -96,5 +96,24 @@ document.addEventListener('click', function(event) {
         window.location.href = "home.html"; // Replace 'upload.html' with your actual upload page URL
     });
 
+    document.getElementById('createPodcastButton').addEventListener('click', function() {
+    fetch('/create_podcast', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+        } else if (data.error) {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 
 
