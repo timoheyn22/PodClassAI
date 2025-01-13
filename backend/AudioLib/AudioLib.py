@@ -1,30 +1,29 @@
-import pyttsx3
+from gtts import gTTS
 import os
 
-class AudioLib:
-    def turnScriptIntoAudio(self, text, speech_rate, volume, voice_id):
+
+class AudioGenerator:
+    def turnScriptIntoAudio(self, speed, language, script):
+        # Define the output folder
         output_folder = 'backend/Uploads/MP3'
-        if not os.path.exists(output_folder):
-            os.makedirs(output_folder)
-        output_path = os.path.join(output_folder, 'test.mp3')
+        # Ensure the output folder exists
+        os.makedirs(output_folder, exist_ok=True)
 
-        engine = pyttsx3.init()
+        # Generate the audio file
+        try:
+            # Create a gTTS object
+            tts = gTTS(text=script, lang=language, slow=speed)
 
-        # Set speech rate (optional)
-        engine.setProperty('rate', speech_rate)  # Set rate based on function argument
+            # Define the output file path
+            output_file = os.path.join(output_folder, 'output.mp3')
 
-        # Set volume (optional)
-        engine.setProperty('volume', volume)  # Set volume based on function argument
+            # Save the audio file
+            tts.save(output_file)
 
-        # Set voice (optional)
-        voices = engine.getProperty('voices')
-        if voice_id < len(voices):  # Check if the requested voice_id is valid
-            engine.setProperty('voice', voices[voice_id].id)  # Set voice based on function argument
-        else:
-            print("Invalid voice_id, using default voice.")
-        # Save the speech to file
-        engine.save_to_file(text, output_path)
-        engine.runAndWait()
-        print("done")
+            print(f"Audio file saved at: {output_file}")
+            return output_file  # Return the path to the generated file
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
 
 
