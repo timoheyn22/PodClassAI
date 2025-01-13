@@ -1,11 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template
 
-app = Flask(__name__)
+# Flask-Instanz erstellen und den Pfad für Templates anpassen
+app = Flask(__name__, template_folder="templates")
 
-@app.route("/")
+@app.route('/')
 def home():
-    return "Hello, Flask!"
+    # Rendert die Datei home.html aus dem Ordner templates
+    return render_template('home.html')
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5005)
-
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5005)

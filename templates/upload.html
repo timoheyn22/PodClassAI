@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/upload.css">
+    <title>Upload</title>
+</head>
+<body>
+    <header class="header">
+        <h1>PodClassAI</h1>
+    </header>
+     <input type="file" id="pdfUpload" accept="application/pdf">
+    <div id="pdfContainer" class="pdf-container"></div>
+    <script src="../static/upload.js"></script>
+    <div class="button-container">
+    <button id="selectLengthButton">select length</button>
+    <button id="selectLanguageButton">select language</button>
+        <div id="languageDropdown" class="dropdown-content">
+        <a href="#" data-lang="Deutsch">Deutsch</a>
+        <a href="#" data-lang="Englisch">Englisch</a>
+        </div>
+
+    <button id="selectSpeedButton">select speed</button>
+        <div id="speedDropdown" class="dropdown-content">
+    <a href="#" data-speed="1x">1x</a>
+    <a href="#" data-speed="1.25x">1.25x</a>
+    <a href="#" data-speed="1.5x">1.5x</a>
+    <a href="#" data-speed="2x">2x</a>
+        </div>
+    <button id="createPodcastButton">create podcast</button>
+</div>
+    <footer class="upload-footer">
+        <button id="backToHomeButton">back to home</button>
+        <button id="uploadNewPdfButton">upload new pdf</button>
+        <input type="file" id="pdfInput" accept="application/pdf" style="display: none;">
+    </footer>
+    <script src="../static/upload.js"></script>
+</body>
+</html>
