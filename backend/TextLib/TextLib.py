@@ -5,14 +5,14 @@ from openai import OpenAI
 
 
 class TextLib:
-    def getTextFromPDF(self, API_KEY, BASE_URL,model):
+    def getTextFromPDF(self, API_KEY, BASE_URL,model,language):
         print("getTextFromPDF method called")
         pdf_to_png("backend/Uploads/PDF", "backend/Uploads/PNG")
-        result = send_images_and_save_responses(API_KEY, BASE_URL, model)
+        result = send_images_and_save_responses(API_KEY, BASE_URL, model,language)
         print("got text from PDFs")
         return result
 
-def send_images_and_save_responses(api_key, base_url, model):
+def send_images_and_save_responses(api_key, base_url, model,language):
     # Start OpenAI client
     client = OpenAI(
         api_key=api_key,
@@ -21,6 +21,13 @@ def send_images_and_save_responses(api_key, base_url, model):
 
     # Path to the directory containing PNG files
     image_dir = "backend/Uploads/PNG"
+
+    if language == "british-english":
+        prompt = "What is in this image?"
+    elif language == "english":
+        prompt= "What is in this image?"
+    elif language == "german":
+        prompt = "Was ist auf diesem Bild zu sehen?"
 
     # Initialize a string to collect all responses
     all_responses = ""
@@ -41,7 +48,7 @@ def send_images_and_save_responses(api_key, base_url, model):
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": "What is in this image?"},
+                            {"type": "text", "text": prompt},
                             {
                                 "type": "image_url",
                                 "image_url": {
