@@ -43,6 +43,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Event listener for the Create Podcast button
+    const createPodcastButton = document.getElementById('createPodcastButton');
+    if (createPodcastButton) {
+        createPodcastButton.addEventListener('click', function () {
+            const selectedLanguage = selectLanguageButton.textContent;
+            const selectedSpeed = selectSpeedButton.textContent;
+
+            fetch('/create_podcast', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ language: selectedLanguage, speed: selectedSpeed }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.message) {
+                        alert(data.message);
+                    } else if (data.error) {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    }
+
     // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {
         if (!event.target.matches('#selectLanguageButton') && !event.target.matches('#selectSpeedButton')) {
@@ -56,31 +84,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
-const createPodcastButton = document.getElementById('createPodcastButton');
-if (createPodcastButton) {
-    createPodcastButton.addEventListener('click', function () {
-        const selectedLanguage = selectLanguageButton.textContent;
-        const selectedSpeed = selectSpeedButton.textContent;
-
-        fetch('/create_podcast', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ language: selectedLanguage, speed: selectedSpeed }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.message) {
-                    alert(data.message);
-                } else if (data.error) {
-                    alert('Error: ' + data.error);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
-}
 
