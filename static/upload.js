@@ -1,10 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Funktion für das Dropdown-Umschalten
+    // Function to toggle the visibility of dropdown contents
     function toggleDropdown(dropdownId) {
         document.getElementById(dropdownId).classList.toggle('show');
     }
 
-    // Event-Listener für Sprache-Dropdown
+    // Function to update button text with selected dropdown value
+    function updateButtonText(buttonId, value) {
+        document.getElementById(buttonId).textContent = value;
+    }
+
+    // Event listeners for language and speed dropdowns
     const selectLanguageButton = document.getElementById('selectLanguageButton');
     const selectSpeedButton = document.getElementById('selectSpeedButton');
 
@@ -20,12 +25,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Schließen der Dropdowns, wenn außerhalb geklickt wird
+    // Event listeners for dropdown options
+    const languageOptions = document.querySelectorAll('#languageDropdown a');
+    const speedOptions = document.querySelectorAll('#speedDropdown a');
+
+    languageOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            updateButtonText('selectLanguageButton', this.textContent);
+            toggleDropdown('languageDropdown');
+        });
+    });
+
+    speedOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            updateButtonText('selectSpeedButton', this.textContent);
+            toggleDropdown('speedDropdown');
+        });
+    });
+
+    // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {
-        if (
-            !event.target.matches('#selectLanguageButton') &&
-            !event.target.matches('#selectSpeedButton')
-        ) {
+        if (!event.target.matches('#selectLanguageButton') && !event.target.matches('#selectSpeedButton')) {
             const dropdowns = document.getElementsByClassName('dropdown-content');
             for (let i = 0; i < dropdowns.length; i++) {
                 const openDropdown = dropdowns[i];
@@ -35,88 +55,32 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-
-    // PDF-Upload-Button-Funktionalität
-    const uploadNewPdfButton = document.getElementById('uploadNewPdfButton');
-    const pdfInput = document.getElementById('pdfInput');
-
-    if (uploadNewPdfButton && pdfInput) {
-        uploadNewPdfButton.addEventListener('click', function () {
-            pdfInput.click();
-        });
-
-        pdfInput.addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('pdf', file);
-
-                fetch('/upload', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-            }
-        });
-    }
-
-    // PDF-Upload und Vorschau
-    const pdfContainer = document.getElementById('pdfContainer');
-    const pdfUpload = document.getElementById('pdfInput'); // Überprüfen, ob pdfInput oder pdfUpload korrekt ist
-
-    if (pdfContainer && pdfUpload) {
-        pdfUpload.addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file && file.type === 'application/pdf') {
-                const fileReader = new FileReader();
-                fileReader.onload = function () {
-                    const pdfData = fileReader.result;
-                    pdfContainer.innerHTML = `<embed src="${pdfData}" type="application/pdf" width="100%" height="100%">`;
-                };
-                fileReader.readAsDataURL(file);
-            } else {
-                alert('Please upload a valid PDF file.');
-            }
-        });
-    }
-
-    // Zurück zur Startseite
-    const backToHomeButton = document.getElementById('backToHomeButton');
-
-    if (backToHomeButton) {
-        backToHomeButton.addEventListener('click', function () {
-            window.location.href = '/';
-        });
-    }
-
-    // Podcast erstellen
-    const createPodcastButton = document.getElementById('createPodcastButton');
-
-    if (createPodcastButton) {
-        createPodcastButton.addEventListener('click', function () {
-            fetch('/create_podcast', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.message) {
-                        alert(data.message);
-                    } else if (data.error) {
-                        alert('Error: ' + data.error);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        });
-    }
 });
+
+const createPodcastButton = document.getElementById('createPodcastButton');
+if (createPodcastButton) {
+    createPodcastButton.addEventListener('click', function () {
+        const selectedLanguage = selectLanguageButton.textContent;
+        const selectedSpeed = selectSpeedButton.textContent;
+
+        fetch('/create_podcast', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ language: selectedLanguage, speed: selectedSpeed }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                } else if (data.error) {
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+}
+
