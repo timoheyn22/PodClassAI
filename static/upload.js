@@ -37,60 +37,16 @@ document.getElementById('pdfUpload').addEventListener('change', function(event) 
     }
 });
 
-document.getElementById('selectLanguageButton').addEventListener('click', function() {
-    document.getElementById('languageDropdown').style.display = 'block';
-});
 
-document.querySelectorAll('#languageDropdown a').forEach(function(item) {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        const selectedLanguage = event.target.getAttribute('data-lang');
-        document.getElementById('selectLanguageButton').textContent = selectedLanguage;
-        document.getElementById('languageDropdown').style.display = 'none';
-    });
-});
 
-document.getElementById('selectLanguageButton').addEventListener('click', function() {
-    document.getElementById('languageDropdown').style.display = 'block';
-});
 
-document.querySelectorAll('#languageDropdown a').forEach(function(item) {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        const selectedLanguage = event.target.getAttribute('data-lang');
-        document.getElementById('selectLanguageButton').textContent = selectedLanguage;
-        document.getElementById('languageDropdown').style.display = 'none';
-    });
-});
 
-document.addEventListener('click', function(event) {
-    if (!event.target.matches('#selectLanguageButton')) {
-        document.getElementById('languageDropdown').style.display = 'none';
-    }
-}   );
+
 
 document.getElementById('backToHomeButton').addEventListener('click', function() {
     window.location.href = '/';
 });
 
-document.getElementById('selectSpeedButton').addEventListener('click', function() {
-    document.getElementById('speedDropdown').style.display = 'block';
-});
-
-document.querySelectorAll('#speedDropdown a').forEach(function(item) {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        const selectedSpeed = event.target.getAttribute('data-speed');
-        document.getElementById('selectSpeedButton').textContent = selectedSpeed;
-        document.getElementById('speedDropdown').style.display = 'none';
-    });
-});
-
-document.addEventListener('click', function(event) {
-    if (!event.target.matches('#selectSpeedButton')) {
-        document.getElementById('speedDropdown').style.display = 'none';
-    }
-});
 
     document.getElementById('backToHomeButton').addEventListener('click', function() {
         window.location.href = "home.html"; // Replace 'upload.html' with your actual upload page URL
@@ -116,4 +72,31 @@ document.addEventListener('click', function(event) {
     });
 });
 
+
+    // Funktion zum Umschalten der Sichtbarkeit der Dropdown-Inhalte
+function toggleDropdown(dropdownId) {
+    document.getElementById(dropdownId).classList.toggle('show');
+}
+
+// Event-Listener für die Buttons
+document.getElementById('selectLanguageButton').addEventListener('click', function() {
+    toggleDropdown('languageDropdown');
+});
+
+document.getElementById('selectSpeedButton').addEventListener('click', function() {
+    toggleDropdown('speedDropdown');
+});
+
+// Schließe das Dropdown, wenn der Benutzer außerhalb davon klickt
+window.onclick = function(event) {
+    if (!event.target.matches('#selectLanguageButton') && !event.target.matches('#selectSpeedButton')) {
+        var dropdowns = document.getElementsByClassName('dropdown-content');
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
 
