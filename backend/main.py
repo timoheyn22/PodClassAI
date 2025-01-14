@@ -15,7 +15,12 @@ model = "internvl2-8b"
 
 
 #called from the templates starting the pipeline form PDF to Podcast
-def pipelinePDFtoPodcast():
+def pipelinePDFtoPodcast(language, speed):
+    #benötigte parameter:
+    #language
+    #speed
+    print(language)
+    print(speed)
 
     text_lib = TextLib()
     script_lib = ScriptLib()
@@ -24,8 +29,8 @@ def pipelinePDFtoPodcast():
 
     file_transporter.delete_all_files("backend/Uploads/PNG")
     file_transporter.delete_all_files("backend/Uploads/MP3")
-    text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model)
-    script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text)
+    #text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model,language)
+    #script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text,language)
     #audio_lib.turnScriptIntoAudio(speed, language, script)
 
 

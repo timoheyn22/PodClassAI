@@ -17,10 +17,10 @@ class AudioLib:
                 language = "en"
             elif language == "english":
                 language = "en"
-                tld = None
+                tld = "com"
                 if language == "german":
                     language = "de"
-                    tld = None
+                    tld = "com"
 
 
             # Create a gTTS object
