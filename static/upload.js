@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', function () {
             updateButtonText('selectLanguageButton', this.textContent);
             toggleDropdown('languageDropdown');
+            checkFormValidity();
         });
     });
 
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', function () {
             updateButtonText('selectSpeedButton', this.textContent);
             toggleDropdown('speedDropdown');
+            checkFormValidity();
         });
     });
 
@@ -90,8 +92,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // PDF in den Container einbetten
             pdfContainer.innerHTML = `<embed src="${fileURL}" type="application/pdf" width="100%" height="100%">`;
+            checkFormValidity();
         }
     });
+
+    // Function to check form validity and enable/disable the Create Podcast button
+    function checkFormValidity() {
+        const selectedLanguage = selectLanguageButton.textContent;
+        const selectedSpeed = selectSpeedButton.textContent;
+        const pdfUploaded = pdfInput.files.length > 0;
+
+        if (selectedLanguage !== 'Select language' && selectedSpeed !== 'Select speed' && pdfUploaded) {
+            createPodcastButton.disabled = false;
+        } else {
+            createPodcastButton.disabled = true;
+        }
+    }
 
     // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {
@@ -106,4 +122,3 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
