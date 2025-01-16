@@ -71,6 +71,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Event listener for PDF upload button and input
+    const pdfInput = document.getElementById('pdfInput');
+    const uploadNewPdfButton = document.getElementById('uploadNewPdfButton');
+    const pdfContainer = document.getElementById('pdfContainer');
+
+    uploadNewPdfButton.addEventListener('click', () => {
+        pdfInput.click();
+    });
+
+    pdfInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const fileURL = URL.createObjectURL(file);
+
+            // Anzeigen des Dateinamens auf dem Button
+            uploadNewPdfButton.textContent = file.name;
+
+            // PDF in den Container einbetten
+            pdfContainer.innerHTML = `<embed src="${fileURL}" type="application/pdf" width="100%" height="100%">`;
+        }
+    });
+
     // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {
         if (!event.target.matches('#selectLanguageButton') && !event.target.matches('#selectSpeedButton')) {

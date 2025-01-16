@@ -10,11 +10,14 @@
     <header class="header">
         <h1>PodClassAI</h1>
     </header>
-    <div id="pdfContainer" class="pdf-container"></div>
+
+    <div id="pdfContainer" class="pdf-container">
+        <p>No PDF uploaded</p>
+    </div>
 
     <div class="button-container">
         <div style="position: relative; display: inline-block;">
-            <button id="selectLanguageButton">select language</button>
+            <button id="selectLanguageButton">Select language</button>
             <div id="languageDropdown" class="dropdown-content">
                 <a href="#">German</a>
                 <a href="#">English</a>
@@ -23,23 +26,24 @@
         </div>
 
         <div style="position: relative; display: inline-block;">
-            <button id="selectSpeedButton">select speed</button>
+            <button id="selectSpeedButton">Select speed</button>
             <div id="speedDropdown" class="dropdown-content">
                 <a href="#">Slow</a>
                 <a href="#">Normal</a>
             </div>
         </div>
-        <button id="createPodcastButton">create podcast</button>
+
+        <button id="createPodcastButton">Create podcast</button>
     </div>
 
     <footer class="upload-footer">
         <form action="/">
-            <button id="backToHomeButton">back to home</button>
+            <button id="backToHomeButton">Back to home</button>
         </form>
-        <button id="uploadNewPdfButton">upload new pdf</button>
+        <button id="uploadNewPdfButton">Upload new PDF</button>
         <input type="file" id="pdfInput" accept="application/pdf" style="display: none;">
     </footer>
 
-    <!-- Skript wird hier geladen -->
     <script src="../static/upload.js"></script>
 </body>
+</html>
