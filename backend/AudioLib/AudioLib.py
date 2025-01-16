@@ -12,13 +12,13 @@ class AudioLib:
         # Generate the audio file
         try:
             # Define the language and TLD
-            if language == "british-english":
+            if language == "English":
                 tld = "co.uk"
                 language = "en"
             elif language == "english":
                 language = "en"
                 tld = "com"
-                if language == "german":
+                if language == "German":
                     language = "de"
                     tld = "com"
 

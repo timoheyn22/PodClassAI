@@ -27,11 +27,12 @@ def pipelinePDFtoPodcast(language, speed):
     audio_lib = AudioLib()
     file_transporter = FileTransportLib()
 
-    file_transporter.delete_all_files("backend/Uploads/PNG")
-    file_transporter.delete_all_files("backend/Uploads/MP3")
-    #text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model,language)
-    #script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text,language)
-    #audio_lib.turnScriptIntoAudio(speed, language, script)
+    file_transporter.delete_all_files("Uploads/PNG")
+    file_transporter.delete_all_files("Uploads/MP3")
+    text = text_lib.getTextFromPDF(API_KEY, BASE_URL, model,language)
+    print(text)
+    script = script_lib.turnTextIntoScript(API_KEY,BASE_URL,model,text,language)
+    audio_lib.turnScriptIntoAudio(speed, language, script)
 
 
 #called from the templates when a pdf is uploaded

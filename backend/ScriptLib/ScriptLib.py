@@ -5,11 +5,11 @@ class ScriptLib:
             api_key=API_KEY,
             base_url=BASE_URL
         )
-        if language == "british-english":
+        if language == "English":
             prompt = "I have the Summary of Lecture Slides. Please create a Podcast script about all the important topics in the Slides:"
         elif language == "english":
             prompt = "I have the Summary of Lecture Slides. Please create a Podcast script about all the important topics in the Slides:"
-        elif language == "german":
+        elif language == "German":
             prompt = "Ich habe die Zusammenfassung von Vorlesungsfolien. Bitte erstellen Sie ein Podcast-Skript über alle wichtigen Themen in den Folien:"
 
         # Generate script using the OpenAI API
