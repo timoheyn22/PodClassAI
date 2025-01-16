@@ -47,6 +47,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for the Create Podcast button
     const createPodcastButton = document.getElementById('createPodcastButton');
+    const downloadPodcastButton = document.getElementById('downloadPodcastButton');
+
+
+    // Event listener for PDF upload button and input
+    const pdfInput = document.getElementById('pdfInput');
+    const uploadNewPdfButton = document.getElementById('uploadNewPdfButton');
+    const pdfContainer = document.getElementById('pdfContainer');
+
     if (createPodcastButton) {
         createPodcastButton.addEventListener('click', function () {
             const selectedLanguage = selectLanguageButton.textContent;
@@ -63,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then((data) => {
                     if (data.message) {
                         alert(data.message);
+                        downloadPodcastButton.disabled = false; // Enable the download button
                     } else if (data.error) {
                         alert('Error: ' + data.error);
                     }
@@ -72,12 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
-
-    // Event listener for PDF upload button and input
-    const pdfInput = document.getElementById('pdfInput');
-    const uploadNewPdfButton = document.getElementById('uploadNewPdfButton');
-    const pdfContainer = document.getElementById('pdfContainer');
-
     uploadNewPdfButton.addEventListener('click', () => {
         pdfInput.click();
     });
