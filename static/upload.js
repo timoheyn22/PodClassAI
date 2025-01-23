@@ -52,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Set initial disabled-button class on page load
     createPodcastButton.classList.add('disabled-button');
     downloadPodcastButton.classList.add('disabled-button');
+    downloadPodcastButton.disabled = false; // Enable for testing only. Romove this line Later !!!
+    downloadPodcastButton.classList.remove('disabled-button'); // Enable for testing only. Romove this line Later !!!
 
     // Event listener for PDF upload button and input
     const pdfInput = document.getElementById('pdfInput');
@@ -117,6 +119,15 @@ function checkFormValidity() {
         createPodcastButton.classList.add('disabled-button');
     }
 }
+downloadPodcastButton.addEventListener('click', function () {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = '/static/Uploads/MP3/output.mp3';
+    downloadLink.download = 'output.mp3';
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+});
 
     // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {

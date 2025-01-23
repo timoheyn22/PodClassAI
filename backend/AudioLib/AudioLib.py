@@ -5,7 +5,7 @@ import os
 class AudioLib:
     def turnScriptIntoAudio(self, speed, language, script):
         # Define the output folder
-        output_folder = 'backend/Uploads/MP3'
+        output_folder = "static\Uploads\MP3\output.mp3"
         # Ensure the output folder exists
         os.makedirs(output_folder, exist_ok=True)
 
