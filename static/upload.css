@@ -91,3 +91,9 @@
 .show {
     display: block;
 }
+.disabled-button {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const createPodcastButton = document.getElementById('createPodcastButton');
     const downloadPodcastButton = document.getElementById('downloadPodcastButton');
 
+    // Set initial disabled-button class on page load
+    createPodcastButton.classList.add('disabled-button');
+
 
     // Event listener for PDF upload button and input
     const pdfInput = document.getElementById('pdfInput');
@@ -100,17 +103,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Function to check form validity and enable/disable the Create Podcast button
-    function checkFormValidity() {
-        const selectedLanguage = selectLanguageButton.textContent;
-        const selectedSpeed = selectSpeedButton.textContent;
-        const pdfUploaded = pdfInput.files.length > 0;
+function checkFormValidity() {
+    const selectedLanguage = selectLanguageButton.textContent;
+    const selectedSpeed = selectSpeedButton.textContent;
+    const pdfUploaded = pdfInput.files.length > 0;
 
-        if (selectedLanguage !== 'Select language' && selectedSpeed !== 'Select speed' && pdfUploaded) {
-            createPodcastButton.disabled = false;
-        } else {
-            createPodcastButton.disabled = true;
-        }
+    if (selectedLanguage !== 'Select language' && selectedSpeed !== 'Select speed' && pdfUploaded) {
+        createPodcastButton.disabled = false;
+        createPodcastButton.classList.remove('disabled-button');
+    } else {
+        createPodcastButton.disabled = true;
+        createPodcastButton.classList.add('disabled-button');
     }
+}
 
     // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {
