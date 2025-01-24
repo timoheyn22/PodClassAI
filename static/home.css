@@ -99,3 +99,19 @@
     font-size: 16px;
     margin: 0;
 }
+
+.styled-button {
+    display: block;
+    margin: 20px 0; /* Adjust the margin as needed */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.styled-button:hover {
+    background-color: #333333; /* Darker black on hover */
+}
