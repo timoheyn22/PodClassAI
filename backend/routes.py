@@ -10,6 +10,10 @@ def home():
 def upload():
     return render_template('upload.html')
 
+@app.route('/datenschutzinformationen')
+def datenschutzinformationen():
+    return render_template('datenschutzinformationen.html')
+
 @app.route('/create_podcast', methods=['POST'])
 def create_podcast():
     try:

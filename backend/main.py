@@ -30,4 +30,4 @@ def pipelinePDFtoPodcast(language, speed):
     audio_lib.turnScriptIntoAudio(speed, language, script)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5019)
+    app.run(host='0.0.0.0', port=5020)
