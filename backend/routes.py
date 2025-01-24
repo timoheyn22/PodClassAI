@@ -1,7 +1,6 @@
-from flask import Flask, render_template, jsonify, request
+from flask import render_template, jsonify, request
+from backend import app
 from backend.main import pipelinePDFtoPodcast
-
-app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -21,6 +20,3 @@ def create_podcast():
         return jsonify({"message": "Podcast created successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5018)
