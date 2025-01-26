@@ -5,7 +5,7 @@ import os
 class AudioLib:
     def turnScriptIntoAudio(self, speed, language, script):
         # Define the output folder
-        output_folder = "static/Uploads/MP3/output.mp3"
+        output_folder = "/static/Uploads/MP3"
         # Ensure the output folder exists
         os.makedirs(output_folder, exist_ok=True)
 
@@ -27,7 +27,7 @@ class AudioLib:
             tts = gTTS(text=script, lang=language, slow=speed, tld=tld)
 
             # Define the output file path
-            output_file = os.path.join(output_folder, 'output.mp3')
+            output_file = os.path.join(output_folder, '/output.mp3')
 
             # Save the audio file
             tts.save(output_file)

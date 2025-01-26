@@ -1,7 +1,11 @@
 from flask import render_template, jsonify, request
 from backend import app
 from backend.main import pipelinePDFtoPodcast
+from backend.FileTransportLib.FileTransportLib import FileTransportLib
+import os
+import logging
 
+app.config['UPLOAD_FOLDER'] = 'Uploads/PDF'
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -24,3 +28,25 @@ def create_podcast():
         return jsonify({"message": "Podcast created successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/upload_pdf', methods=['POST'])
+def upload_pdf():
+    logging.debug("Received a request for /upload_pdf")
+    file_transporter = FileTransportLib()
+    file_transporter.delete_all_files("Uploads/PDF")
+
+    if 'pdf' not in request.files:
+        logging.error("No PDF file in request")
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    file = request.files['pdf']
+
+    if not file.filename.endswith('.pdf'):
+        logging.error(f"Unsupported file type: {file.filename}")
+        return jsonify({'error': 'File type not supported. Please upload a PDF file.'}), 400
+
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    logging.debug(f"Saving file to {file_path}")
+    file.save(file_path)
+
+    return jsonify({'success': True, 'message': 'PDF uploaded successfully!'})

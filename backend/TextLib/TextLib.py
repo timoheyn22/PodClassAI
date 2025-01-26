@@ -7,7 +7,7 @@ from openai import OpenAI
 class TextLib:
     def getTextFromPDF(self, API_KEY, BASE_URL,model,language):
         print("getTextFromPDF method called")
-        pdf_to_png("backend/Uploads/PDF", "backend/Uploads/PNG")
+        pdf_to_png("Uploads/PDF", "Uploads/PNG")
         result = send_images_and_save_responses(API_KEY, BASE_URL, model,language)
         print("got text from PDFs")
         return result
@@ -18,7 +18,7 @@ def send_images_and_save_responses(api_key, base_url, model, language):
         api_key=api_key,
         base_url=base_url,
     )
-    image_dir = "backend/Uploads/PNG"
+    image_dir = "Uploads/PNG"
 
     # Define prompt
     if language.lower() == "english":
@@ -27,8 +27,6 @@ def send_images_and_save_responses(api_key, base_url, model, language):
         prompt = "Was ist auf diesem Bild zu sehen?"
     else:
         prompt = "What is in this image?"
-
-    print(f"Prompt being used: {prompt}")
 
     # Initialize a string to collect all responses
     all_responses = ""
@@ -63,7 +61,6 @@ def send_images_and_save_responses(api_key, base_url, model, language):
                     ],
                 )
                 message_content = response.choices[0].message.content
-                print(f"Message content for {file_name}: {message_content}")
 
                 # Append to all_responses
                 all_responses += f"Response for {file_name}: {message_content}\n"
@@ -79,7 +76,7 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-def pdf_to_png(input_folder="backend/Uploads/PDF", output_folder="backend/Uploads/PNG"):
+def pdf_to_png(input_folder="Uploads/PDF", output_folder="Uploads/PNG"):
     """
     Converts each page of PDF files in a folder to PNG format.
 

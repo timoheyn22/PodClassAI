@@ -92,42 +92,57 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     pdfInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const fileURL = URL.createObjectURL(file);
+    const file = event.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('pdf', file);
 
-            // Anzeigen des Dateinamens auf dem Button
-            uploadNewPdfButton.textContent = file.name;
-
-            // PDF in den Container einbetten
-            pdfContainer.innerHTML = `<embed src="${fileURL}" type="application/pdf" width="100%" height="100%">`;
-            checkFormValidity();
-        }
-    });
+        fetch('/upload_pdf', {
+            method: 'POST',
+            body: formData,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert('PDF uploaded successfully!');
+                uploadNewPdfButton.textContent = file.name;
+                const fileURL = URL.createObjectURL(file);
+                pdfContainer.innerHTML = `<embed src="${fileURL}" type="application/pdf" width="100%" height="100%">`;
+                checkFormValidity();
+            } else {
+                alert(`Error: ${data.error}`);
+            }
+        })
+        .catch((error) => {
+            console.error('Error uploading PDF:', error);
+        });
+    }
+});
 
     // Function to check form validity and enable/disable the Create Podcast button
-function checkFormValidity() {
-    const selectedLanguage = selectLanguageButton.textContent;
-    const selectedSpeed = selectSpeedButton.textContent;
-    const pdfUploaded = pdfInput.files.length > 0;
+    function checkFormValidity() {
+        const selectedLanguage = selectLanguageButton.textContent;
+        const selectedSpeed = selectSpeedButton.textContent;
+        const pdfUploaded = pdfInput.files.length > 0;
 
-    if (selectedLanguage !== 'Select language' && selectedSpeed !== 'Select speed' && pdfUploaded) {
-        createPodcastButton.disabled = false;
-        createPodcastButton.classList.remove('disabled-button');
-    } else {
-        createPodcastButton.disabled = true;
-        createPodcastButton.classList.add('disabled-button');
+        if (selectedLanguage !== 'Select language' && selectedSpeed !== 'Select speed' && pdfUploaded) {
+            createPodcastButton.disabled = false;
+            createPodcastButton.classList.remove('disabled-button');
+        } else {
+            createPodcastButton.disabled = true;
+            createPodcastButton.classList.add('disabled-button');
+        }
     }
-}
-downloadPodcastButton.addEventListener('click', function () {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = '/static/Uploads/MP3/output.mp3';
-    downloadLink.download = 'output.mp3';
-    downloadLink.style.display = 'none';
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-});
+
+    downloadPodcastButton.addEventListener('click', function () {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = '../static/Uploads/MP3/output.mp3';
+        downloadLink.download = 'output.mp3';
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
 
     // Close the dropdown when clicking outside of it
     window.addEventListener('click', function (event) {
