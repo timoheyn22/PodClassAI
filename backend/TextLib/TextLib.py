@@ -32,43 +32,46 @@ def send_images_and_save_responses(api_key, base_url, model, language):
     all_responses = ""
 
     # Loop through all PNG files in the directory
-    for file_name in os.listdir(image_dir):
-        if file_name.lower().endswith(".png"):
-            image_path = os.path.join(image_dir, file_name)
-            print(f"Processing file: {file_name}")
+    # Sort filenames to ensure correct order
+    png_files = sorted(
+        [f for f in os.listdir(image_dir) if f.lower().endswith(".png")],
+        key=lambda x: (x.split("_page_")[0], int(x.split("_page_")[1].split(".png")[0]))
+    )
 
-            try:
-                # Encode the image to base64
-                base64_image = encode_image(image_path)
-                print(f"Encoded {file_name} to base64.")
+    for file_name in png_files:
+        image_path = os.path.join(image_dir, file_name)
+        print(f"Processing file: {file_name}")
 
-                # Send the image to the API and get the response
-                response = client.chat.completions.create(
-                    model=model,
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": prompt},
-                                {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/jpeg;base64,{base64_image}"
-                                    },
+        try:
+            # Encode the image to base64
+            base64_image = encode_image(image_path)
+            print(f"Encoded {file_name} to base64.")
+
+            # Send the image to the API and get the response
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{base64_image}"
                                 },
-                            ],
-                        }
-                    ],
-                )
-                message_content = response.choices[0].message.content
+                            },
+                        ],
+                    }
+                ],
+            )
+            message_content = response.choices[0].message.content
 
-                # Append to all_responses
-                all_responses += f"Response for {file_name}: {message_content}\n"
+            # Append to all_responses
+            all_responses += f"Response for {file_name}: {message_content}\n"
 
-
-            except Exception as e:
-                print(f"Error processing {file_name}: {e}")
-
+        except Exception as e:
+            print(f"Error processing {file_name}: {e}")
 
     return all_responses
 
