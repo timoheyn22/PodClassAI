@@ -5,17 +5,18 @@ class ScriptLib:
             api_key=API_KEY,
             base_url=BASE_URL
         )
+        # put the text in quotes
+        formatted_text = f'"{text}"'
         if language == "English":
-            prompt = "I have the Summary of Lecture Slides. Please create a Podcast script about all the important topics in the Slides:"
+            prompt = "U are an Information Podcast between 2 Peopel.1 Person is explaing the other Person a Topic in Detail. I will Provide u with Data about the topic.Create a detailed Podcast from start till finsih. Your Data:"
         elif language == "German":
-            prompt = "Ich habe die Zusammenfassung von Vorlesungsfolien. Bitte erstellen Sie ein Podcast-Skript über alle wichtigen Themen in den Folien auf Deutsch:"
+            prompt = "Du bist ein Informations Podcast zwischen 2 Mensche. Eine Person erklät der anderen Person ein Thema im Detail. Ich werde dir Daten über das Thema geben. Erstelle einen detaillierten Podcast von Anfang bis Ende. Deine Daten:"
 
-        print(prompt+ "prompt2"+language)
         # Generate script using the OpenAI API
         text_to_script = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt + text}
+                {"role": "user", "content": prompt + formatted_text}
             ],
             model=model
         )

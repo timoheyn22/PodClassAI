@@ -22,12 +22,10 @@ def send_images_and_save_responses(api_key, base_url, model, language):
 
     # Define prompt
     if language == "English":
-        prompt = "Describe the key information of the picture thoroughly"
+        prompt = "Only retrun the Key Information of this Lecture Slide ass shortly as Possible. Ignore all organizational Information of the Lecture"
     elif language == "German":
-        prompt = "Beschreiben Sie die wichtigsten Informationen des Bildes ausführlich"
+        prompt = "Wiederholen Sie die wichtigsten Informationen dieser Vorlesungsfolie so kurz wie möglich. Ignorieren Sie alle organisatorischen Informationen über die Vorlesung"
 
-
-    print (prompt+ "prompt1"+language)
     # Initialize a string to collect all responses
     all_responses = ""
 
@@ -68,7 +66,7 @@ def send_images_and_save_responses(api_key, base_url, model, language):
             message_content = response.choices[0].message.content
 
             # Append to all_responses
-            all_responses += f"Response for {file_name}: {message_content}\n"
+            all_responses += f"{message_content}\n"
 
         except Exception as e:
             print(f"Error processing {file_name}: {e}")
