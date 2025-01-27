@@ -21,13 +21,13 @@ def send_images_and_save_responses(api_key, base_url, model, language):
     image_dir = "Uploads/PNG"
 
     # Define prompt
-    if language.lower() == "english":
-        prompt = "What is in this image?"
-    elif language.lower() == "german":
-        prompt = "Was ist auf diesem Bild zu sehen?"
-    else:
-        prompt = "What is in this image?"
+    if language == "English":
+        prompt = "Describe the key information of the picture thoroughly"
+    elif language == "German":
+        prompt = "Beschreiben Sie die wichtigsten Informationen des Bildes ausführlich"
 
+
+    print (prompt+ "prompt1"+language)
     # Initialize a string to collect all responses
     all_responses = ""
 

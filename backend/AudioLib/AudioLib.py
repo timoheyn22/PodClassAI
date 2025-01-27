@@ -16,11 +16,8 @@ class AudioLib:
         try:
             # Define the language and TLD
             if language == "English":
-                tld = "co.uk"
-                language = "en"
-            elif language == "english":
-                language = "en"
                 tld = "com"
+                language = "en"
             elif language == "German":
                 language = "de"
                 tld = "com"

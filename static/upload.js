@@ -52,8 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Set initial disabled-button class on page load
     createPodcastButton.classList.add('disabled-button');
     downloadPodcastButton.classList.add('disabled-button');
-    downloadPodcastButton.disabled = false; // Enable for testing only. Romove this line Later !!!
-    downloadPodcastButton.classList.remove('disabled-button'); // Enable for testing only. Romove this line Later !!!
+
 
     // Event listener for PDF upload button and input
     const pdfInput = document.getElementById('pdfInput');
@@ -77,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.message) {
                         alert(data.message);
                         downloadPodcastButton.disabled = false;
-                        createPodcastButton.classList.remove('disabled-button'); // Enable the download button
+                        downloadPodcastButton.classList.remove('disabled-button'); // Enable the download button
                     } else if (data.error) {
                         alert('Error: ' + data.error);
                     }
