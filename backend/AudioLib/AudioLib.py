@@ -4,8 +4,11 @@ import os
 
 class AudioLib:
     def turnScriptIntoAudio(self, speed, language, script):
-        # Define the output folder
-        output_folder = "/static/Uploads/MP3"
+        # Define the output folder using a relative path
+        output_folder = os.path.normpath(
+            os.path.join(os.path.dirname(__file__), "../../static/Uploads/MP3")
+        )
+
         # Ensure the output folder exists
         os.makedirs(output_folder, exist_ok=True)
 
@@ -18,16 +21,15 @@ class AudioLib:
             elif language == "english":
                 language = "en"
                 tld = "com"
-                if language == "German":
-                    language = "de"
-                    tld = "com"
-
+            elif language == "German":
+                language = "de"
+                tld = "com"
 
             # Create a gTTS object
             tts = gTTS(text=script, lang=language, slow=speed, tld=tld)
 
             # Define the output file path
-            output_file = os.path.join(output_folder, '/output.mp3')
+            output_file = os.path.join(output_folder, "output.mp3")
 
             # Save the audio file
             tts.save(output_file)
@@ -37,5 +39,3 @@ class AudioLib:
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
-
-
