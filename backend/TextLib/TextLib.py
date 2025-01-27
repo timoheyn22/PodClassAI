@@ -7,7 +7,9 @@ from openai import OpenAI
 class TextLib:
     def getTextFromPDF(self, API_KEY, BASE_URL,model,language):
         print("getTextFromPDF method called")
+        # Convert each PDF page into a PNG image
         pdf_to_png("Uploads/PDF", "Uploads/PNG")
+        #send each Page to the language model and get the text
         result = send_images_and_save_responses(API_KEY, BASE_URL, model,language)
         print("got text from PDFs")
         return result
@@ -18,9 +20,11 @@ def send_images_and_save_responses(api_key, base_url, model, language):
         api_key=api_key,
         base_url=base_url,
     )
+
+    # Define the directory containing the PNG images
     image_dir = "Uploads/PNG"
 
-    # Define prompt
+    # Define prompt depending on the language
     if language == "English":
         prompt = "Only retrun the Key Information of this Lecture Slide ass shortly as Possible. Ignore all organizational Information of the Lecture"
     elif language == "German":
@@ -29,13 +33,12 @@ def send_images_and_save_responses(api_key, base_url, model, language):
     # Initialize a string to collect all responses
     all_responses = ""
 
-    # Loop through all PNG files in the directory
     # Sort filenames to ensure correct order
     png_files = sorted(
         [f for f in os.listdir(image_dir) if f.lower().endswith(".png")],
         key=lambda x: (x.split("_page_")[0], int(x.split("_page_")[1].split(".png")[0]))
     )
-
+    # Loop through all PNG files in the directory
     for file_name in png_files:
         image_path = os.path.join(image_dir, file_name)
         print(f"Processing file: {file_name}")
@@ -63,9 +66,8 @@ def send_images_and_save_responses(api_key, base_url, model, language):
                     }
                 ],
             )
-            message_content = response.choices[0].message.content
-
             # Append to all_responses
+            message_content = response.choices[0].message.content
             all_responses += f"{message_content}\n"
 
         except Exception as e:
@@ -73,10 +75,12 @@ def send_images_and_save_responses(api_key, base_url, model, language):
 
     return all_responses
 
+# Helper function to encode an image to base64
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
+# Helper function to convert PDF files to PNG images
 def pdf_to_png(input_folder="Uploads/PDF", output_folder="Uploads/PNG"):
     """
     Converts each page of PDF files in a folder to PNG format.
@@ -88,6 +92,7 @@ def pdf_to_png(input_folder="Uploads/PDF", output_folder="Uploads/PNG"):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
+    # Loop through all PDF files in the directory
     for pdf_file in os.listdir(input_folder):
         if pdf_file.lower().endswith(".pdf"):
             pdf_path = os.path.join(input_folder, pdf_file)

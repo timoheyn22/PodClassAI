@@ -1,12 +1,14 @@
 from openai import OpenAI
 class ScriptLib:
     def turnTextIntoScript(self,API_KEY, BASE_URL, model,text,language):
+        # Create an instance of the OpenAI class
         client = OpenAI(
             api_key=API_KEY,
             base_url=BASE_URL
         )
         # put the text in quotes
         formatted_text = f'"{text}"'
+        # Set the prompt based on the language
         if language == "English":
             prompt = "U are an Information Podcast between 2 Peopel.1 Person is explaing the other Person a Topic in Detail. I will Provide u with Data about the topic.Create a detailed Podcast from start till finsih. Your Data:"
         elif language == "German":
@@ -24,6 +26,6 @@ class ScriptLib:
         # Extract the assistant's reply
         response = text_to_script.choices[0].message.content
 
-        # Print or save the response
+        # Print and save the response
         print(response)
         return response

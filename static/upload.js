@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listeners for language and speed dropdowns
     const selectLanguageButton = document.getElementById('selectLanguageButton');
     const selectSpeedButton = document.getElementById('selectSpeedButton');
-
+    //
     if (selectLanguageButton) {
         selectLanguageButton.addEventListener('click', function () {
             toggleDropdown('languageDropdown');
@@ -59,11 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const uploadNewPdfButton = document.getElementById('uploadNewPdfButton');
     const pdfContainer = document.getElementById('pdfContainer');
 
+
     if (createPodcastButton) {
         createPodcastButton.addEventListener('click', function () {
             const selectedLanguage = selectLanguageButton.textContent;
             const selectedSpeed = selectSpeedButton.textContent;
-
+            
             fetch('/create_podcast', {
                 method: 'POST',
                 headers: {
