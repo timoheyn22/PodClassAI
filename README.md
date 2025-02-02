@@ -13,7 +13,7 @@ PodClassAI is a Python-based application that converts PDF documents into podcas
 - Generates audio files from the script
 - Supports multiple language
 
-## Requirements
+## Requirements (you can also see all Requirements in the requirements.txt file)
 
 - Python 3.x
 - pip
@@ -21,6 +21,7 @@ PodClassAI is a Python-based application that converts PDF documents into podcas
 - PyMuPDF (fitz)
 - OpenAI API
 - python-dotenv
+
 
 ## LLM Model 
 - internvl2-8b
@@ -40,9 +41,13 @@ pip install -r requirements.txt
     python backend/main.py
     ```
 
-2. Access the application in your web browser at `http://0.0.0.0:5020`.
+2. Access the application in your web browser at the adress listed in terminal
 
-3. Use the provided interface to upload PDF files and create MP3 Podcast.
+3. When you land on the landing page, click on the "Go to Upload Page" button to upload a PDF file.
+4. You will be redirected to the upload page where you can upload a PDF file by clicking on the "Upload File" button.
+5. Once the file is uploaded, choose the language and speed for the podcast and click on the "Create Podcast" button
+6. The application will then create a podcast. Once you get the message that the podcast is ready, you can download it by clicking on the "Download Podcast" button.
+
 
 
 ## Project Structure
@@ -70,7 +75,7 @@ API_KEY=*your API key*
 BASE_URL=https://chat-ai.academiccloud.de/v1
 
 ## Demo 
-A Demo Video of how to use the Aplication uploaded on GitHub.
+A Demo Video of how to use the Application uploaded on GitHub.
 
 ## Reflection
 As a Group we are very happy with how we planed and executed the Projekt. Our main challenges were sending a API request with both a prompt and a PNG file and the Server Hosting. 
