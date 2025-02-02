@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listeners for language and speed dropdowns
     const selectLanguageButton = document.getElementById('selectLanguageButton');
     const selectSpeedButton = document.getElementById('selectSpeedButton');
-    //
+    // Add click event listener to the language dropdown button
     if (selectLanguageButton) {
         selectLanguageButton.addEventListener('click', function () {
             toggleDropdown('languageDropdown');
         });
     }
-
+    // Add click event listener to the speed dropdown button
     if (selectSpeedButton) {
         selectSpeedButton.addEventListener('click', function () {
             toggleDropdown('speedDropdown');
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const languageOptions = document.querySelectorAll('#languageDropdown a');
     const speedOptions = document.querySelectorAll('#speedDropdown a');
 
+    // Update button text and toggle dropdown visibility when a language is selected
     languageOptions.forEach(option => {
         option.addEventListener('click', function () {
             updateButtonText('selectLanguageButton', this.textContent);
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Update button text and toggle dropdown visibility when a speed is selected
     speedOptions.forEach(option => {
         option.addEventListener('click', function () {
             updateButtonText('selectSpeedButton', this.textContent);
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const createPodcastButton = document.getElementById('createPodcastButton');
     const downloadPodcastButton = document.getElementById('downloadPodcastButton');
 
-    // Set initial disabled-button class on page load
+    // Grey Out the Create Podcast and Download Podcast buttons on Page Load
     createPodcastButton.classList.add('disabled-button');
     downloadPodcastButton.classList.add('disabled-button');
 
@@ -59,12 +61,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const uploadNewPdfButton = document.getElementById('uploadNewPdfButton');
     const pdfContainer = document.getElementById('pdfContainer');
 
-
+    // Handle Create Podcast button click to send selected options to the server
     if (createPodcastButton) {
         createPodcastButton.addEventListener('click', function () {
             const selectedLanguage = selectLanguageButton.textContent;
             const selectedSpeed = selectSpeedButton.textContent;
-            
+
+            // Send data to the server via a POST request
             fetch('/create_podcast', {
                 method: 'POST',
                 headers: {
@@ -76,10 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then((data) => {
                     if (data.message) {
                         alert(data.message);
-                        downloadPodcastButton.disabled = false;
+                        downloadPodcastButton.disabled = false; // Enable the download button
                         downloadPodcastButton.classList.remove('disabled-button'); // Enable the download button
                     } else if (data.error) {
-                        alert('Error: ' + data.error);
+                        alert('Error: ' + data.error);  // Display error message
                     }
                 })
                 .catch((error) => {
@@ -87,16 +90,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
+
+    // Trigger file input dialog when the Upload PDF button is clicked
     uploadNewPdfButton.addEventListener('click', () => {
         pdfInput.click();
     });
 
+    // Handle PDF file upload
     pdfInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
         const formData = new FormData();
         formData.append('pdf', file);
 
+        // Send the uploaded file to the server
         fetch('/upload_pdf', {
             method: 'POST',
             body: formData,
@@ -105,16 +112,16 @@ document.addEventListener('DOMContentLoaded', function () {
         .then((data) => {
             if (data.success) {
                 alert('PDF uploaded successfully!');
-                uploadNewPdfButton.textContent = file.name;
+                uploadNewPdfButton.textContent = file.name; // Update button text to show file name
                 const fileURL = URL.createObjectURL(file);
                 pdfContainer.innerHTML = `<embed src="${fileURL}" type="application/pdf" width="100%" height="100%">`;
-                checkFormValidity();
+                checkFormValidity(); // Check if the form is valid
             } else {
-                alert(`Error: ${data.error}`);
+                alert(`Error: ${data.error}`); // Display error message
             }
         })
         .catch((error) => {
-            console.error('Error uploading PDF:', error);
+            console.error('Error uploading PDF:', error);  // Log any errors
         });
     }
 });
@@ -125,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedSpeed = selectSpeedButton.textContent;
         const pdfUploaded = pdfInput.files.length > 0;
 
+         // Enable the button if all Values are entered
         if (selectedLanguage !== 'Select language' && selectedSpeed !== 'Select speed' && pdfUploaded) {
             createPodcastButton.disabled = false;
             createPodcastButton.classList.remove('disabled-button');
@@ -134,13 +142,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+
+    // Handle Download Podcast button click to download the generated file
     downloadPodcastButton.addEventListener('click', function () {
         const downloadLink = document.createElement('a');
-        downloadLink.href = '../static/Uploads/MP3/output.mp3';
-        downloadLink.download = 'output.mp3';
+        downloadLink.href = '../static/Uploads/MP3/output.mp3'; // File location
+        downloadLink.download = 'output.mp3'; // Suggested file name
         downloadLink.style.display = 'none';
         document.body.appendChild(downloadLink);
-        downloadLink.click();
+        downloadLink.click(); // Trigger the download
         document.body.removeChild(downloadLink);
     });
 
